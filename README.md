@@ -16,7 +16,7 @@ Every day at midnight the bot collects all posts since yesterday in a certain ch
 5. Copy your token for the bot into the .env file as `BOT_TOKEN=YOUR_TOKEN`
 6. Create a virtual env with `python -m venv .venv` and activate it
 7. Install dependencies with `pip install -r requirements.txt`
-8. Run main.py
+8. Run src/main.py
 
 ## Upcoming features (?)
 * Parse results in plain text
