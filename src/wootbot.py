@@ -7,7 +7,7 @@ import discord
 
 import summary
 
-class WotBot(commands.Bot):
+class WootBot(commands.Bot):
 
     current_bot = None
     
@@ -26,16 +26,16 @@ class WotBot(commands.Bot):
 
     @staticmethod
     def create_instance():
-        if not WotBot.current_bot:
+        if not WootBot.current_bot:
             intents = discord.Intents.default()
             intents.message_content = True
-            WotBot.current_bot = WotBot(command_prefix="/", intents=intents)
-        return WotBot.current_bot
+            WootBot.current_bot = WootBot(command_prefix="/", intents=intents)
+        return WootBot.current_bot
 
 
 @tasks.loop(hours=24)
 async def post_summary():
-    bot : WotBot = WotBot.current_bot
+    bot : WootBot = WootBot.current_bot
     yesterday = datetime.datetime.now() - datetime.timedelta(days = 1)
     for guild in bot.guilds:
         print(f"Processing {guild.name}")

@@ -14,8 +14,8 @@ def get_token():
 
 
 def main():
-    from wotbot import WotBot
-    bot = WotBot.create_instance()
+    from wootbot import WootBot
+    bot = WootBot.create_instance()
     bot.run(get_token())
 
 
