@@ -29,6 +29,7 @@ class WootBot(commands.Bot):
         if not WootBot.current_bot:
             intents = discord.Intents.default()
             intents.message_content = True
+            intents.members = True
             WootBot.current_bot = WootBot(command_prefix="/", intents=intents)
         return WootBot.current_bot
 
@@ -45,7 +46,7 @@ async def post_summary():
         if channel:
             messages = [msg async for msg in channel.history(limit=200, after=yesterday)]
             messages = list(filter(lambda msg: not msg.author.bot, messages))
-            message_data = [(msg.author.id, msg.author.name, msg.content) for msg in messages]
+            message_data = [(msg.author.id, msg.author.display_name, msg.content) for msg in messages]
             result = summary.get_statistics(message_data)
             await channel.send(f"```\n{result}\n```")
 
