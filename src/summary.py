@@ -6,7 +6,7 @@ REGEX_TRADLE = re.compile("#Tradle #\d+ ([123456X])/6")
 REGEX_ORDLIG = re.compile("ordlig.se nr \d+, ([123456X])/6")
 REGEX_ORDEL = re.compile("Ordel #\d+ ([123456X])/6")
 
-REGEX_ANY_SCORE = re.compile("(([123456X])([^0123456789]|$))|(((first)|(second)|(third)|(fourth)|(fifth)|(sixth))(\s|$))")
+REGEX_ANY_SCORE = re.compile("((?:(^|\s))([123456X])([^0123456789]|$))|(((first)|(second)|(third)|(fourth)|(fifth)|(sixth))(\s|$))")
 
 def get_statistics(message_data):
     result = {}
@@ -39,7 +39,7 @@ def parse_message(msg):
     results_certain = {}
     for line in msg.split("\n"):
         for game, game_regex in games_simple_regex.items():
-            match = game_regex.match(line)
+            match = game_regex.search(line)
             if match:
                 results_certain[game] = match.group(1)
 
@@ -79,13 +79,14 @@ def _find_uncertain_points(msg, game_names):
     return results_uncertain
 
 def _prettify_score(score):
+    score = score.strip()
     numbers_as_text = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "sixth": 6}
     if score[0].isdigit() or score[0].lower() == 'X':
         return score[0].upper()
-    elif score.strip() in numbers_as_text.keys():
-        return str(numbers_as_text[score.strip()])
+    elif score in numbers_as_text.keys():
+        return str(numbers_as_text[score])
     else:
-        return score.strip()
+        return score
 
 def _next_game(haystack, needles, start=0):
     result_pos = -1
