@@ -1,6 +1,8 @@
 import re
 from table2ascii import table2ascii as t2a, PresetStyle
 
+SEND_MESSAGE_IF_NO_RESULTS = False
+
 REGEX_WORDLE = re.compile("Wordle \d+ ([123456X])/6")
 REGEX_TRADLE = re.compile("#Tradle #\d+ ([123456X])/6")
 REGEX_ORDLIG = re.compile("ordlig.se nr \d+, ([123456X])/6")
@@ -108,7 +110,10 @@ def format_result(result):
         data.append(row)
 
     if not result:
-        text = "WOOT WOOT! Seems like today was no fun and games.\nLet's try again tomorrow!"
+        if SEND_MESSAGE_IF_NO_RESULTS:
+            text = "WOOT WOOT! Seems like today was no fun and games.\nLet's try again tomorrow!"
+        else:
+            text = None
     else:
         text = "WOOT WOOT! Statistics for todays games are:\n"
         text += t2a(header=headers, body=data, style=PresetStyle.thin_compact, cell_padding=0)

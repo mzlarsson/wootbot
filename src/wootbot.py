@@ -48,7 +48,8 @@ async def post_summary():
             messages = list(filter(lambda msg: not msg.author.bot, messages))
             message_data = [(msg.author.id, msg.author.display_name, msg.content) for msg in messages]
             result = summary.get_statistics(message_data)
-            await channel.send(f"```\n{result}\n```")
+            if result:
+                await channel.send(f"```\n{result}\n```")
 
 @post_summary.before_loop
 async def before_post_summary():
